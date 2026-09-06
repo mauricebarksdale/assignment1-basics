@@ -1,0 +1,3 @@
+[workspace]
+members = ["cs336_basics/tokenizer/rust"]
+resolver = "3"
