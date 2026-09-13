@@ -1,5 +1,5 @@
 from os import PathLike
-from typing import Iterable, Iterator, Self
+from typing import Iterable, Iterator
 import rust_tokenizer
 
 class Tokenizer:
@@ -8,23 +8,25 @@ class Tokenizer:
         vocab: dict[int, bytes],
         merges: list[tuple[bytes, bytes]],
         special_tokens: list[str] | None = None,
-    ) -> Self:
-        raise NotImplementedError
+    ) -> None:
+        self._tokenizer = rust_tokenizer.Tokenizer(vocab, merges, special_tokens)
 
     @classmethod
     def from_files(
-        cls, 
-        vocab_filepath: str | PathLike[str], 
-        merges_filepath: str | PathLike[str], 
+        cls,
+        vocab_filepath: str | PathLike[str],
+        merges_filepath: str | PathLike[str],
         special_tokens: list[str] | None = None
-    ) -> None:
-        raise NotImplementedError
+    ) -> "Tokenizer":
+        instance = cls.__new__(cls)
+        instance._tokenizer = rust_tokenizer.Tokenizer.from_files(vocab_filepath, merges_filepath, special_tokens)
+        return instance
 
     def encode(self, text: str) -> list[int]:
-        raise NotImplementedError
+        return self._tokenizer.encode(text)
 
     def encode_iterable(self, iterable: Iterable[str]) -> Iterator[int]:
-        raise NotImplementedError
+        return self._tokenizer.encode_iterable(iterable)
 
     def decode(self, ids: list[int]) -> str:
-        raise NotImplementedError
+        return self._tokenizer.decode(ids)
