@@ -1,0 +1,13 @@
+[project]
+name = "rust-tokenizer"
+version = "0.1.0"
+requires-python = ">=3.12,<3.14"
+
+[build-system]
+requires = ["maturin>=1.14.1,<2.0"]
+build-backend = "maturin"
+
+[tool.uv]
+# uv only rebuilds a path dependency when one of these changes; without the Rust
+# sources listed here, edits to src/*.rs would be silently ignored on `uv sync`.
+cache-keys = [{ file = "pyproject.toml" }, { file = "Cargo.toml" }, { file = "src/**/*.rs" }]
