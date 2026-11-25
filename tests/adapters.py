@@ -15,6 +15,7 @@ from cs336_basics.tokenizer.trainer import BpeTrainer
 from cs336_basics.models.linear import Linear
 from cs336_basics.models.embedding import Embedding
 from cs336_basics.models.rmsnorm import RMSNorm
+from cs336_basics.models.positionwise_feedforward import PositionWiseFeedForward
 
 def run_linear(
     d_in: int,
@@ -89,8 +90,11 @@ def run_swiglu(
     # swiglu.w1.weight.data = w1_weight
     # swiglu.w2.weight.data = w2_weight
     # swiglu.w3.weight.data = w3_weight
-    raise NotImplementedError
-
+    swiglu = PositionWiseFeedForward(d_model, d_ff)
+    swiglu.w1.weight.data = w1_weight
+    swiglu.w2.weight.data = w2_weight
+    swiglu.w3.weight.data = w3_weight
+    return swiglu(in_features)
 
 def run_scaled_dot_product_attention(
     Q: Float[Tensor, " ... queries d_k"],

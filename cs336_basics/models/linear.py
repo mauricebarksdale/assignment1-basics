@@ -19,7 +19,7 @@ class Linear(nn.Module):
         variance: float = 2.0 / (in_features + out_features)
         std: float = variance ** 0.5
         random_distribution = RandomDistribution(0, std, -3 * std, 3 * std)
-        self.W: nn.Parameter = nn.Parameter(init_tensor_with_random_distribution(out_features, in_features, random_distribution, device, dtype))
+        self.weight: nn.Parameter = nn.Parameter(init_tensor_with_random_distribution(out_features, in_features, random_distribution, device, dtype))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return einsum(x, self.W, "... d_in, d_out d_in -> ... d_out")
+        return einsum(x, self.weight, "... d_in, d_out d_in -> ... d_out")
