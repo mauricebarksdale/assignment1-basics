@@ -11,6 +11,10 @@ class Embedding(nn.Module):
         dtype: torch.dtype | None = None,
     ) -> None:
         super().__init__()
+        
+        self.num_embeddings: int = num_embeddings
+        self.embedding_dim: int = embedding_dim
+
         random_distribution: RandomDistribution = RandomDistribution(0, 1, -3, 3)
         self.E = nn.Parameter(init_tensor_with_random_distribution(num_embeddings, embedding_dim, random_distribution, device, dtype))
 
